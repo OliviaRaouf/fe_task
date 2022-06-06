@@ -1,10 +1,11 @@
 <div class="c-dashboard">
+  <div ng-controller="homeController as ctrl">
   <div class="c-filters__container">
-    <filter-component v-on-test="ctrl.handleHelloEvent"/>
+    <filter-component v-on-filter-key="ctrl.handleFilterEvent"></filter-component>
   </div>
 
-  <employees-list employees-list="homePageVm.employees"></employees-list>
-
+  <employees-list employees-list="homePageVm.employees" filter="filter"></employees-list>
+</div>
   <div class="c-dashboard__footer">
     <button class="c-button">
       Load More
