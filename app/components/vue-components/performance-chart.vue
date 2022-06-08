@@ -96,6 +96,47 @@ export default {
           top: "6px",
           containLabel: true,
         },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#16253f',
+          textStyle: {
+           color: '#fff',
+          },
+        formatter: (params) => {
+          return (
+            '<div style="text-align: center;">' +
+            params[0].name +
+            '</div>' +
+            params[0].marker +
+            " Team Performance Index:  " +
+            parseInt(params[0].data) + '%'
+          );
+         },
+        },
+        visualMap: {
+          show: true,
+          dimension: 1,
+          right: 10,
+          top: 20,
+          bottom: 20,
+          pieces: [
+            {
+              gt: 0,
+              lt: 50,
+              color: '#f4674c'
+            },
+            {
+              gte: 50,
+              lte: 80,
+              color: '#fbdc39'
+            },
+            {
+              gte: 80,
+              lte:100,
+              color: '#46994f'
+            }
+          ]
+        },
         xAxis: {
           type: "category",
           showGrid: false,
