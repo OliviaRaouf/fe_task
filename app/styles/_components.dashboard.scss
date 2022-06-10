@@ -39,6 +39,12 @@
 .c-chart__container {
   height: 350px;
   width: 760px;
+
+  .text-warning{
+    text-align: center;
+    font-size: 24px;
+    color: maroon;
+  }
 }
 
 .c-button {

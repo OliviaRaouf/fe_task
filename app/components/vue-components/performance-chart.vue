@@ -1,10 +1,12 @@
 <template>
   <div class="c-chart__container">
+    <p v-if="noData" class="text-warning">Out of Range</p>
     <v-chart ref="chart" :option="chartOptions" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import moment from "moment";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -27,6 +29,7 @@ use([
 ]);
 
 export default {
+  props:["chartDataArr"],
   name: "PerformanceChartComponent",
 
   components: {
@@ -35,40 +38,14 @@ export default {
 
   data() {
     return {
-      chartData: [
-        {
-          date_ms: 1641772800000,
-          performance: 0.2,
-        },
-        {
-          date_ms: 1641859200000,
-          performance: 0.33,
-        },
-        {
-          date_ms: 1641945600000,
-          performance: 0.53,
-        },
-        {
-          date_ms: 1642032000000,
-          performance: 0.31,
-        },
-        {
-          date_ms: 1642118400000,
-          performance: 0.65,
-        },
-        {
-          date_ms: 1642204800000,
-          performance: 0.88,
-        },
-        {
-          date_ms: 1642291200000,
-          performance: 0.07,
-        },
-      ],
+      min:"",
+      max:"",
+      noData: false,
     };
   },
 
   computed: {
+    ...mapState(["chartData"]),
     initOptions() {
       return {
         width: "auto",
@@ -141,6 +118,8 @@ export default {
           type: "category",
           showGrid: false,
           data: this.xAxisData,
+          min: this.min,
+          max: this.max,
           axisLine: {
             show: true,
           },
@@ -179,7 +158,26 @@ export default {
       return this.chartData.map((item) => +item.performance * 100);
     },
   },
+  watch:{
+    chartDataArr(value){
+      this.min = value[0];
+      this.max = value[value.length - 1];
+      if(new Date(this.chartData[0].date_ms) > this.min && new Date(this.chartData[0].date_ms) > this.max) {
+        this.noData = true;
 
+      }else if (new Date(this.chartData[0].date_ms) < this.min && new Date(this.chartData[this.chartData.length - 1].date_ms) < this.max){
+        this.noData = true;
+      }
+      else{
+         this.noData = false;
+         this.min = this.formatDate(value[0]);
+         this.max = this.formatDate(value[value.length - 1]);
+      }
+    }
+  },
+  mounted() {
+    this.$store.dispatch('fetchChartData');
+  },
   methods: {
     formatDate(dateInMs) {
       return moment(dateInMs).format("DD MMM YYYY");
