@@ -1,10 +1,10 @@
 angular.module('appModule')
-  .config(($locationProvider) => {
+  .config(['$locationProvider', '$urlRouterProvider', '$stateProvider', function ($locationProvider, $urlRouterProvider, $stateProvider) {
     $locationProvider.html5Mode({
       enabled: true,
     });
-  })
-  .config(($stateProvider) => {
+    $urlRouterProvider.otherwise('/app');
+    // $urlRouterProvider.when('', '/');
     $stateProvider
       .state({
         name: 'app',
@@ -17,5 +17,10 @@ angular.module('appModule')
         name: 'team-performance',
         url: '/team-performance',
         template: '<v-performance-page></v-performance-page>',
+      })
+      .state({
+        name: 'not-found-page',
+        url: '/not-found-page',
+        template: '<v-page-not-found></v-page-not-found>',
       });
-  });
+  }]);
