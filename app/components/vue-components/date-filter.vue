@@ -1,6 +1,8 @@
 <template>
   <div>
+    <label>Start Date : </label>
     <input type="date" id="start" v-model="date.startDate" />
+    <label>End Date : </label>
     <input type="date" id="end" v-model="date.endDate" />
     <button
       @click="dateFilter(date.startDate, date.endDate)" :disabled="isValid"
@@ -11,7 +13,7 @@
 </template>
 
 <script>
-import filter from "../../mixins/filter"
+import filterByDate from "../../mixins/filter"
 
 export default {
   data() {
@@ -26,7 +28,7 @@ export default {
 
   methods: {
     dateFilter(fromDate, toDate) {
-      var pointsArr = filter.filterByDate(fromDate, toDate);
+      var pointsArr = filterByDate(fromDate, toDate);
       this.$emit("pointsArr", pointsArr);
     },
   },

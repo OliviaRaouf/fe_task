@@ -1,5 +1,6 @@
 <template>
   <div class="c-chart__container">
+    <p v-if="noData" class="text-warning">Out of Range</p>
     <v-chart ref="chart" :option="chartOptions" />
   </div>
 </template>
@@ -39,6 +40,7 @@ export default {
     return {
       min:"",
       max:"",
+      noData: false,
     };
   },
 
@@ -117,8 +119,19 @@ export default {
   },
   watch:{
     chartDataArr(value){
-      this.min = this.formatDate(value[0]);
-      this.max = this.formatDate(value[value.length - 1]);
+      this.min = value[0];
+      this.max = value[value.length - 1];
+      if(new Date(this.chartData[0].date_ms) > this.min && new Date(this.chartData[0].date_ms) > this.max) {
+        this.noData = true;
+
+      }else if (new Date(this.chartData[0].date_ms) < this.min && new Date(this.chartData[this.chartData.length - 1].date_ms) < this.max){
+        this.noData = true;
+      }
+      else{
+         this.noData = false;
+         this.min = this.formatDate(value[0]);
+         this.max = this.formatDate(value[value.length - 1]);
+      }
     }
   },
   mounted() {
