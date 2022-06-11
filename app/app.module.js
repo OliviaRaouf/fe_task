@@ -29,13 +29,3 @@ angular.module('appModule').config(($ngVueProvider) => {
     store: store,
   });
 });
-
-// angular.module('appModule').run(['$state', '$rootScope', function ($state, $rootScope) {
-//   console.log($state);
-//   console.log($rootScope);
-//   $rootScope.$on('$locationChangeError', function () {
-//     if (!$state.transition) {
-//       $state.go('not-found-page');
-//     }
-//   });
-// }]);
