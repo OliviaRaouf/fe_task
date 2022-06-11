@@ -13,7 +13,9 @@ var app = angular
 function homePageController(Employees, $scope, $location) {
   const homePageVm = this;
   homePageVm.employees = [];
-
+  $scope.disableBtn = false;
+  $scope.showBtn = true;
+  $scope.showLoader = false;
   activate();
 
   function activate() {
@@ -33,6 +35,19 @@ function homePageController(Employees, $scope, $location) {
       $location.replace();
     };
   }
+  $scope.loadMore = function () {
+    $scope.disableBtn = true;
+    $scope.showLoader = true;
+    Employees.loadMoreEmployees()
+      .then(({ data }) => {
+        homePageVm.employees = homePageVm.employees.concat(data.employees);
+        $scope.disableBtn = false;
+        $scope.showLoader = false;
+        if (data.current_page === data.pages) {
+          $scope.showBtn = false;
+        }
+      });
+  };
 }
 
 app.filter('highlightWord', function ($sce) {
