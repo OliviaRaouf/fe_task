@@ -4,11 +4,18 @@
     <filter-component v-on-filter-key="ctrl.handleFilterEvent"></filter-component>
   </div>
 
-  <employees-list employees-list="homePageVm.employees" filter="filter"></employees-list>
-</div>
+  <employees-list employees-list="ctrl.employees" filter="filter"></employees-list>
+
   <div class="c-dashboard__footer">
-    <button class="c-button">
+    <button class="c-button" ng-click="loadMore()" ng-disabled="disableBtn" ng-show="showBtn">
       Load More
+      <div class="lds-ring" ng-show="showLoader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </button>
   </div>
+</div>
 </div>

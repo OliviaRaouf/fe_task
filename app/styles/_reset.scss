@@ -304,6 +304,7 @@ input[type="submit"] {
 button[disabled],
 html input[disabled] {
   cursor: not-allowed;
+  background-color: #949494;
 }
 
 /**
